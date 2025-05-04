@@ -1,0 +1,58 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "apps/backend/dist/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/health.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/api-docs.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/submitReceipt.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/health", "dest": "api/health.js" },
+    { "src": "/api/health", "dest": "api/health.js" },
+    { "src": "/api-docs", "dest": "api/api-docs.js" },
+    { 
+      "src": "/submitReceipt", 
+      "dest": "api/submitReceipt.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept, Origin, X-Requested-With"
+      }
+    },
+    { 
+      "src": "/api/submitReceipt", 
+      "dest": "api/submitReceipt.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept, Origin, X-Requested-With"
+      }
+    },
+    { 
+      "src": "/api/(.*)", 
+      "dest": "api/index.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept, Origin, X-Requested-With"
+      }
+    },
+    { "src": "/(.*)", "dest": "api/index.js" }
+  ]
+} 

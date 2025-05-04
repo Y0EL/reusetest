@@ -1,0 +1,32 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/root.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "api/health.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "api/index.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "public/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      { "src": "^/$", "dest": "api/root.js" },
+      { "src": "/health", "dest": "api/health.js" },
+      { "src": "/api/health", "dest": "api/health.js" },
+      { "src": "/api-docs", "dest": "api/index.js" },
+      { "src": "/api-docs/(.*)", "dest": "api/index.js" },
+      { "src": "/submitReceipt", "dest": "api/index.js" },
+      { "src": "/api/(.*)", "dest": "api/index.js" },
+      { "src": "/static/(.*)", "dest": "public/$1" },
+      { "src": "/(.*)", "dest": "api/index.js" }
+    ]
+  } 

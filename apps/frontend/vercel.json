@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "buildCommand": "cd ../.. && yarn install && cd apps/frontend && yarn --no-lockfile && yarn build",
+    "installCommand": "true",
+    "outputDirectory": "dist",
+    "framework": "vite",
+    "routes": [
+      {
+        "handle": "filesystem"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
+      }
+    ]
+  } 

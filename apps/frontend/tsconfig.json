@@ -1,0 +1,14 @@
+{
+  "extends": "@repo/typescript-config/vite.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "../../packages/*": ["../../packages/*"]
+    }
+  }
+}
