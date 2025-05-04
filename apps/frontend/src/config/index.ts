@@ -5,19 +5,7 @@
 const getBackendUrl = () => {
   // Production environment check
   if (process.env.NODE_ENV === 'production') {
-    // Check deployment domain
-    const hostname = window.location.hostname;
-    
-    if (hostname.includes('reusetest-frontend.vercel.app')) {
-      return 'https://reusetest-frontend.vercel.app';
-    }
-    if (hostname.includes('reuse8.vercel.app')) {
-      return 'https://reuse8.vercel.app';
-    }
-    if (hostname.includes('reuse-nine.vercel.app')) {
-      return 'https://reuse-nine.vercel.app';
-    }
-    // Default production URL
+    // Always use the backend URL regardless of the frontend domain
     return 'https://reusetest-backend.vercel.app';
   }
   
