@@ -20,12 +20,31 @@
     {
       "src": "api/submitReceipt.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "apps/backend/node_modules/swagger-ui-dist/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     { "src": "/health", "dest": "api/health.js" },
     { "src": "/api/health", "dest": "api/health.js" },
     { "src": "/api-docs", "dest": "api/api-docs.js" },
+    { 
+      "src": "/api-docs/(.*\\.css)",
+      "dest": "apps/backend/node_modules/swagger-ui-dist/$1",
+      "headers": { "Content-Type": "text/css" }
+    },
+    { 
+      "src": "/api-docs/(.*\\.js)",
+      "dest": "apps/backend/node_modules/swagger-ui-dist/$1",
+      "headers": { "Content-Type": "application/javascript" }
+    },
+    { 
+      "src": "/api-docs/(.*\\.png)",
+      "dest": "apps/backend/node_modules/swagger-ui-dist/$1",
+      "headers": { "Content-Type": "image/png" }
+    },
     { 
       "src": "/submitReceipt", 
       "dest": "api/submitReceipt.js",

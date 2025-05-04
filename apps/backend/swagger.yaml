@@ -1,30 +1,63 @@
+swagger: '2.0'
+info:
+  title: 'Reuse API'
+  version: '1.0.0'
+  description: 'API documentation for the Reuse application'
+
 tags:
   - name: submission
-    description: submission API
+    description: Receipt submission endpoints
+  - name: health
+    description: Health check endpoints
 
 paths:
   /submitReceipt:
-    # [POST] submission
     post:
       tags:
         - submission
-      summary: Validate Receipt
+      summary: Submit a receipt for processing
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: body
           in: body
-          description: user Data
+          description: Receipt data
           required: true
           schema:
             $ref: '#/definitions/submitReceipt'
       responses:
         200:
-          description: 'Submission response'
+          description: 'Submission successful'
+          schema:
+            $ref: '#/definitions/SubmissionResponse'
         400:
           description: 'Bad Request'
         409:
           description: 'Conflict'
         500:
           description: 'Server Error'
+  
+  /health:
+    get:
+      tags:
+        - health
+      summary: Check if the API is running properly
+      produces:
+        - application/json
+      responses:
+        200:
+          description: 'API is healthy'
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: 'ok'
+              message:
+                type: string
+                example: 'API is running'
 
 # definitions
 definitions:
@@ -35,13 +68,32 @@ definitions:
     properties:
       image:
         type: string
-        description: image base64
+        description: Base64 encoded image data
       address:
         type: string
-        description: User's address
+        description: User's wallet address
       deviceID:
         type: string
         description: User's device ID
+  
+  SubmissionResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        example: 'success'
+      message:
+        type: string
+        example: 'Receipt processed successfully'
+      data:
+        type: object
+        properties:
+          id:
+            type: string
+            example: '12345'
+          timestamp:
+            type: string
+            example: '2023-06-01T12:00:00Z'
 
 schemes:
   - https
