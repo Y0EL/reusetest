@@ -3,43 +3,79 @@ module.exports = (req, res) => {
   console.log('API docs endpoint requested');
   
   // Set the correct content-type for HTML
-  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.statusCode = 200;
   
-  // Render HTML with proper Swagger UI initialization
+  // Render Swagger UI using CDN resources
   res.end(`
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
       <head>
-        <title>Reuse API Documentation</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
+        <title>Reuse API Documentation</title>
+        <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
         <style>
           body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
             margin: 0;
             padding: 0;
-          }
-          #swagger-ui {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
           }
           .topbar {
             display: none;
           }
+          .swagger-ui .info .title {
+            color: #3B82F6;
+          }
+          .swagger-ui .opblock.opblock-post {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: #10B981;
+          }
+          .swagger-ui .opblock.opblock-post .opblock-summary-method {
+            background: #10B981;
+          }
+          .swagger-ui .opblock.opblock-get {
+            background: rgba(59, 130, 246, 0.05);
+            border-color: #3B82F6;
+          }
+          .swagger-ui .opblock.opblock-get .opblock-summary-method {
+            background: #3B82F6;
+          }
+          .swagger-ui .btn.execute {
+            background-color: #3B82F6;
+            border-color: #2563EB;
+          }
+          .swagger-ui .btn.execute:hover {
+            background-color: #2563EB;
+          }
+          .swagger-ui section.models {
+            border-color: #E5E7EB;
+          }
+          .swagger-ui section.models.is-open h4 {
+            border-color: #E5E7EB;
+          }
+          .swagger-ui .opblock-tag {
+            border-color: #F3F4F6;
+          }
+          .back-link {
+            display: block;
+            margin: 10px 20px;
+            color: #3B82F6;
+            text-decoration: none;
+            font-size: 14px;
+          }
+          .back-link:hover {
+            text-decoration: underline;
+          }
         </style>
       </head>
       <body>
+        <a href="/" class="back-link">← Back to Dashboard</a>
         <div id="swagger-ui"></div>
-        
         <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js"></script>
         <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-standalone-preset.js"></script>
         <script>
           window.onload = function() {
-            // Begin Swagger UI call region
             const ui = SwaggerUIBundle({
               url: "https://raw.githubusercontent.com/Y0EL/reusetest/main/apps/backend/swagger.yaml",
               dom_id: '#swagger-ui',
@@ -51,9 +87,13 @@ module.exports = (req, res) => {
               plugins: [
                 SwaggerUIBundle.plugins.DownloadUrl
               ],
-              layout: "StandaloneLayout"
+              layout: "StandaloneLayout",
+              defaultModelsExpandDepth: 1,
+              defaultModelExpandDepth: 1,
+              displayRequestDuration: true,
+              docExpansion: 'list',
+              requestSnippetsEnabled: true
             });
-            // End Swagger UI call region
             window.ui = ui;
           };
         </script>

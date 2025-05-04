@@ -22,29 +22,14 @@
       "use": "@vercel/node"
     },
     {
-      "src": "apps/backend/node_modules/swagger-ui-dist/**",
-      "use": "@vercel/static"
+      "src": "api/root.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     { "src": "/health", "dest": "api/health.js" },
     { "src": "/api/health", "dest": "api/health.js" },
     { "src": "/api-docs", "dest": "api/api-docs.js" },
-    { 
-      "src": "/api-docs/(.*\\.css)",
-      "dest": "apps/backend/node_modules/swagger-ui-dist/$1",
-      "headers": { "Content-Type": "text/css" }
-    },
-    { 
-      "src": "/api-docs/(.*\\.js)",
-      "dest": "apps/backend/node_modules/swagger-ui-dist/$1",
-      "headers": { "Content-Type": "application/javascript" }
-    },
-    { 
-      "src": "/api-docs/(.*\\.png)",
-      "dest": "apps/backend/node_modules/swagger-ui-dist/$1",
-      "headers": { "Content-Type": "image/png" }
-    },
     { 
       "src": "/submitReceipt", 
       "dest": "api/submitReceipt.js",
@@ -72,6 +57,53 @@
         "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept, Origin, X-Requested-With"
       }
     },
-    { "src": "/(.*)", "dest": "api/index.js" }
+    { "src": "/(.*)", "dest": "api/root.js" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)\\.css",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/css"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.html",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.svg",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    }
   ]
 } 
