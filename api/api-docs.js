@@ -92,7 +92,9 @@ module.exports = (req, res) => {
               defaultModelExpandDepth: 1,
               displayRequestDuration: true,
               docExpansion: 'list',
-              requestSnippetsEnabled: true
+              filter: true,
+              requestSnippetsEnabled: true,
+              tryItOutEnabled: true
             });
             window.ui = ui;
           };

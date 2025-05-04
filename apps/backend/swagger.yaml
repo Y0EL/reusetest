@@ -9,6 +9,8 @@ tags:
     description: Receipt submission endpoints
   - name: health
     description: Health check endpoints
+  - name: telegram
+    description: Telegram bot integration endpoints
 
 paths:
   /submitReceipt:
@@ -39,6 +41,36 @@ paths:
         500:
           description: 'Server Error'
   
+  /submitReceipt/remaining/{address}:
+    get:
+      tags:
+        - submission
+      summary: Get remaining submissions for a wallet
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+          description: Wallet address (0x format)
+      produces:
+        - application/json
+      responses:
+        200:
+          description: 'Remaining submissions count'
+          schema:
+            type: object
+            properties:
+              remaining:
+                type: integer
+                example: 3
+              max:
+                type: integer
+                example: 5
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Server Error'
+  
   /health:
     get:
       tags:
@@ -58,6 +90,73 @@ paths:
               message:
                 type: string
                 example: 'API is running'
+  
+  /api/telegram:
+    post:
+      tags:
+        - telegram
+      summary: Telegram bot webhook endpoint
+      description: Handles incoming messages from the Telegram Bot API
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              update_id:
+                type: integer
+              message:
+                type: object
+                properties:
+                  message_id:
+                    type: integer
+                  from:
+                    type: object
+                  chat:
+                    type: object
+                  text:
+                    type: string
+      responses:
+        200:
+          description: 'Webhook processed successfully'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Server Error'
+  
+  /api/telegram-debug:
+    get:
+      tags:
+        - telegram
+      summary: Telegram bot debug endpoint
+      description: Provides debug information about the Telegram bot configuration
+      produces:
+        - application/json
+      parameters:
+        - name: command
+          in: query
+          type: string
+          required: false
+          description: Optional debug command (e.g., 'verifications', 'users')
+      responses:
+        200:
+          description: 'Debug information'
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              webhook:
+                type: object
+        500:
+          description: 'Server Error'
 
 # definitions
 definitions:
